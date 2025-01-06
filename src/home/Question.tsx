@@ -9,8 +9,8 @@ import {
 
 const Question = () => {
   return (
-    <div>
-      <Card>
+    <div className="min-h-screen flex items-center justify-center">
+      <Card className="w-[400px]">
         <CardHeader>
           <CardTitle>Card Title</CardTitle>
           <CardDescription>Card Description</CardDescription>
