@@ -1,12 +1,11 @@
-import { Button } from "./components/ui/button"
+import Question from "./home/Question";
 
 function App() {
-
   return (
     <>
-      <Button>test</Button>
+      <Question />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
