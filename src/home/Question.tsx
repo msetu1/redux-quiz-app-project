@@ -1,26 +1,51 @@
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { setAnswer } from "@/redux/features/quiz/quizSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import QuizControl from "./QuizControl";
 
 const Question = () => {
+  const dispatch = useAppDispatch();
+  const { question, currentQuestionIndex, userAnswer } = useAppSelector(
+    (state) => state.quiz
+  );
+  const currentQuestion = question[currentQuestionIndex];
+  const currentAnswer = userAnswer[currentQuestionIndex];
+  const handleAnswerChange = (answer: string) => {
+    dispatch(setAnswer({ questionIndex: currentQuestionIndex, answer }));
+  };
+
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <Card className="w-[400px]">
+    <div className="">
+      <Card className="w-[450px]">
         <CardHeader>
-          <CardTitle>Card Title</CardTitle>
-          <CardDescription>Card Description</CardDescription>
+          <CardTitle className="text-2xl font-bold">
+            {currentQuestion.question}
+          </CardTitle>
+          <CardDescription>
+            Question {currentQuestionIndex + 1} of {question.length}
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <p>Card Content</p>
+          {currentQuestion?.options?.map((option, idx) => (
+            <Button
+              onClick={() => handleAnswerChange(option)}
+              key={idx}
+              size="lg"
+              className="w-full mt-3"
+              variant={option === currentAnswer ? "default" : "outline"}
+            >
+              {option}
+            </Button>
+          ))}
+          <QuizControl />
         </CardContent>
-        <CardFooter>
-          <p>Card Footer</p>
-        </CardFooter>
       </Card>
     </div>
   );
