@@ -7,40 +7,54 @@ import {
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 const QuizControl = () => {
-  const { question, currentQuestionIndex, userAnswer } = useAppSelector(
-    (state) => state.quiz
-  );
-  const isAnswerSelected = userAnswer[currentQuestionIndex] !== null;
   const dispatch = useAppDispatch();
+  const { question, currentQuestionIndex, userAnswer, quizComplete } =
+    useAppSelector((state) => state.quiz);
 
+  // Check if the current question has an answer selected
+  const isAnswerSelected = userAnswer[currentQuestionIndex] !== null;
+
+  // Handle the "Next" button click
   const handleNextQuestion = () => {
-    dispatch(nextQuestion());
+    if (isAnswerSelected) {
+      dispatch(nextQuestion());
+    }
   };
+
+  // Handle the "Previous" button click
   const handlePreviousQuestion = () => {
     dispatch(previousQuestion());
   };
 
+  // Handle the "Complete Quiz" button click
   const handleCompleteIndex = () => {
     dispatch(completeQuiz());
   };
 
-  const isCompleteQuiz =
+  // Check if all answers are selected for the last question
+  const isCompleteEnabled =
     isAnswerSelected || currentQuestionIndex !== question.length - 1;
+
   return (
     <div className="flex items-center justify-between mt-10 ">
+      {/* Previous Button */}
       <Button
-        disabled={currentQuestionIndex === 0}
         onClick={handlePreviousQuestion}
+        disabled={currentQuestionIndex === 0 || quizComplete}
       >
         Previous
       </Button>
+
+      {/* Next Button */}
       {currentQuestionIndex < question.length - 1 && (
-        <Button disabled={!isAnswerSelected} onClick={handleNextQuestion}>
+        <Button onClick={handleNextQuestion} disabled={!isAnswerSelected}>
           Next
         </Button>
       )}
-      {currentQuestionIndex === question.length - 1 && (
-        <Button disabled={!isCompleteQuiz} onClick={handleCompleteIndex}>
+
+      {/* Complete Quiz Button */}
+      {currentQuestionIndex === question.length - 1 && !quizComplete && (
+        <Button onClick={handleCompleteIndex} disabled={!isCompleteEnabled}>
           Complete Quiz
         </Button>
       )}
