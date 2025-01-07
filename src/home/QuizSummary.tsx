@@ -1,6 +1,8 @@
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
-import { useAppSelector } from "@/redux/hooks";
+import { quizResultCheck } from "@/redux/features/quiz/quizSlice";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 
 // Helper function to get performance rating and color based on the percentage
 const getPerformance = (percentage: number) => {
@@ -16,6 +18,7 @@ const getPerformance = (percentage: number) => {
 };
 
 const QuizSummary = () => {
+  const dispatch = useAppDispatch();
   const { question, userAnswer } = useAppSelector((state) => state.quiz);
 
   // Calculate correct and incorrect answers
@@ -67,6 +70,9 @@ const QuizSummary = () => {
               Great job! Keep practicing to improve your performance.
             </p>
           </div>
+          <Button onClick={() => dispatch(quizResultCheck())} className="mt-5">
+            Check Quiz Result
+          </Button>
         </CardContent>
       </Card>
     </div>

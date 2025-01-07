@@ -6,12 +6,14 @@ interface TQuiz {
   currentQuestionIndex: number;
   userAnswer: (string | null)[];
   quizComplete: boolean;
+  moreResultInfo: boolean;
 }
 const initialState: TQuiz = {
   question: quizData,
   currentQuestionIndex: 0,
   userAnswer: Array(quizData.length).fill(null),
   quizComplete: false,
+  moreResultInfo:false
 };
 
 export const quizSlice = createSlice({
@@ -35,9 +37,13 @@ export const quizSlice = createSlice({
     completeQuiz: (state) => {
       state.quizComplete = true;
     },
+    quizResultCheck: (state) => {
+      state.moreResultInfo = true;
+      state.currentQuestionIndex = 0;
+  },
   },
 });
 
-export const { setAnswer, nextQuestion, previousQuestion, completeQuiz } =
+export const { setAnswer, nextQuestion, previousQuestion, completeQuiz,quizResultCheck } =
   quizSlice.actions;
 export default quizSlice.reducer;
