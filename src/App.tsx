@@ -1,3 +1,4 @@
+import AllQuiz from "./home/AllQuiz";
 import Question from "./home/Question";
 import QuizSummary from "./home/QuizSummary";
 import Result from "./home/Result";
@@ -12,6 +13,7 @@ function App() {
       <div>
         <h2 className="text-center font-bold text-5xl mb-10">Quiz apps !!</h2>
         {/* {!quizComplete ? <Question /> : <QuizSummary />} */}
+        <AllQuiz/>
         {moreResultInfo ? (
           <Result />
         ) : quizComplete ? (
